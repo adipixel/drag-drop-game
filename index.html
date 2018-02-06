@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html>
+
+  <head>
+    <style>
+      #div1,
+      #div2,
+      #div3,
+      #div4 {
+        width: 100px;
+        height: 100px;
+        margin: 10px;
+        padding: 10px;
+        border: 1px solid black;
+        display: inline-block;
+      }
+      
+      #pool {
+        width: 500px;
+        height: 100px;
+        border: 1px solid blue;
+        padding: 10px;
+      }
+
+    </style>
+    <script>
+      var attempt = 0;
+
+      function allowDrop(ev) {
+        ev.preventDefault();
+      }
+
+      function drag(ev) {
+        var data = JSON.stringify({
+          target_id: ev.target.id,
+          ans: ev.target.getAttribute('data-ans')
+        });
+        ev.dataTransfer.setData("img", data);
+        console.log();
+      }
+
+      function drop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("img");
+        ev.target.appendChild(document.getElementById(JSON.parse(data).target_id));
+      }
+
+      function verify() {
+        attempt += 1;
+        var ans = true;
+        var c = document.getElementById('div1').childNodes;
+        if (c[0] != null && c[0].dataset.ans != 'div1') {
+          ans = false;
+          document.getElementById("pool").appendChild(c[0]);
+        }
+
+        var c = document.getElementById('div2').childNodes;
+        if (c[0] != null && c[0].dataset.ans != 'div2') {
+          ans = false;
+          document.getElementById("pool").appendChild(c[0]);
+        }
+
+        var c = document.getElementById('div3').childNodes;
+        if (c[0] != null && c[0].dataset.ans != 'div3') {
+          ans = false;
+          document.getElementById("pool").appendChild(c[0]);
+        }
+
+        var c = document.getElementById('div4').childNodes;
+        if (c[0] != null && c[0].dataset.ans != 'div4') {
+          ans = false;
+          document.getElementById("pool").appendChild(c[0]);
+        }
+
+        if (ans) {
+          $("#msg").html("All Correct");
+        } else {
+          $("#msg").html("Something is wrong");
+        }
+
+        if (attempt > 2) {
+          $("#showAns").show();
+        }
+
+      }
+
+      function showAns() {
+        var ansStr = "DIV1 = IMG4, DIV2 = IMG3, DIV3 = IMG2, DIV4 = IMG1";
+        $("#ans_msg").html(ansStr);
+      }
+
+    </script>
+  </head>
+
+  <body>
+
+    <h2>Drag and Drop by Satish Shinde</h2>
+    <h3>Place the logo in the appropriate box</h3>
+
+    <div style="display:inline-block">
+      <div>
+        <label>Instagram</label>
+      </div>
+      <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    </div>
+
+    <div style="display:inline-block">
+      <div>
+        <label>Whatsapp</label>
+      </div>
+      <div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    </div>
+
+    <div style="display:inline-block">
+      <div>
+        <label>Google</label>
+      </div>
+      <div id="div3" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    </div>
+
+    <div style="display:inline-block">
+      <div>
+        <label>Facebook</label>
+      </div>
+      <div id="div4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    </div>
+
+    <div>
+      <button id="yo" onClick="verify()"> Verify Answer </button>
+      <button id="showAns" onClick="showAns()" style="display: none;"> Show Answer </button>
+      <h2 id="msg"></h2>
+      <h2 id="ans_msg"></h2>
+    </div>
+
+    <h5>Choices Pool</h5>
+    <div style="display:block" ondrop="drop(event)" ondragover="allowDrop(event)" id="pool">
+
+      <img src="https://images.sftcdn.net/images/t_optimized,f_auto/p/37a5557e-96d0-11e6-a0ca-00163ec9f5fa/3724657053/facebook-for-windows-10-logo.png" draggable="true" ondragstart="drag(event)" id="drag1" data-ans="div4" width="50" height="50">
+      <img src="https://yt3.ggpht.com/-v0soe-ievYE/AAAAAAAAAAI/AAAAAAAAAAA/OixOH_h84Po/s100-mo-c-c0xffffffff-rj-k-no/photo.jpg" draggable="true" ondragstart="drag(event)" id="drag2" data-ans="div3" width="50" height="50">
+      <img src="https://img.utdstc.com/icons/whatsapp-wallpaper-android.png:s" draggable="true" ondragstart="drag(event)" id="drag3" data-ans="div2" width="50" height="50">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/100px-Instagram_logo_2016.svg.png" draggable="true" ondragstart="drag(event)" id="drag4" data-ans="div1" width="50" height="50">
+    </div>
+
+
+
+  </body>
+
+</html>
